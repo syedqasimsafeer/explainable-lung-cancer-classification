@@ -1,0 +1,12 @@
+{
+    "final_best_model_name": "ResNet50",
+    "selection_metric": "Macro F1",
+    "reason": "Original ResNet50 was selected because it achieved the highest Macro F1 and performed better on the minority benign class than the fine-tuned model.",
+    "important_observation": "Fine-tuned ResNet50 slightly improved accuracy but reduced Macro F1 and benign recall, showing that accuracy alone is not reliable for imbalanced medical datasets.",
+    "classes": [
+        "normal",
+        "benign",
+        "malignant"
+    ],
+    "image_size": 224
+}

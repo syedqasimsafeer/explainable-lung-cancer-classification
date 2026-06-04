@@ -1,0 +1,21 @@
+{
+    "image_size": 224,
+    "class_names": [
+        "normal",
+        "benign",
+        "malignant"
+    ],
+    "label_mapping": {
+        "normal": 0,
+        "benign": 1,
+        "malignant": 2
+    },
+    "reverse_label_mapping": {
+        "0": "normal",
+        "1": "benign",
+        "2": "malignant"
+    },
+    "best_model_name": "ResNet50",
+    "preprocessing": "resnet50_preprocess_input",
+    "model_file": "best_lung_cancer_model.keras"
+}

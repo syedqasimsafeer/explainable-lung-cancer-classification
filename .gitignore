@@ -1,0 +1,9 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env
+.DS_Store
+sample_data/
+data/raw/
+raw_data/
+kaggle.json
