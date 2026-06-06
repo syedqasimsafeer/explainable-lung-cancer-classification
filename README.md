@@ -72,9 +72,6 @@ A key finding is that fine-tuning improved overall accuracy but reduced minority
 - Model comparison dashboard
 - Medical disclaimer
 
-## How to Run
+## Deployment
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
+The Streamlit deployment link is: https://explainable-lung-cancer-classification-l3.streamlit.app/
