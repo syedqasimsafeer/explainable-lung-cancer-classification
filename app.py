@@ -19,17 +19,15 @@ st.set_page_config(
 
 @st.cache_resource
 def load_model_and_config():
-    custom_objects = {
-        "preprocess_input": resnet_preprocess
-    }
+    model = tf.keras.models.load_model(
+        "deployment/best_lung_cancer_model.keras",
+        compile=False
+    )
 
-    with tf.keras.utils.custom_object_scope(custom_objects):
-        model = tf.keras.models.load_model(
-            "deployment/best_lung_cancer_model.keras",
-            custom_objects=custom_objects,
-            safe_mode=False,
-            compile=False
-        )
+    with open("deployment/deployment_config.json", "r") as f:
+        config = json.load(f)
+
+    return model, config
 
     with open("deployment/deployment_config.json", "r") as f:
         config = json.load(f)
@@ -108,7 +106,9 @@ def read_uploaded_image(uploaded_file, image_size):
 
 
 def predict_image(model, img_array, class_names):
-    probabilities = model.predict(img_array, verbose=0)[0]
+    model_input = resnet_preprocess(img_array.copy())
+
+    probabilities = model.predict(model_input, verbose=0)[0]
     predicted_id = int(np.argmax(probabilities))
     predicted_class = class_names[predicted_id]
     confidence = float(probabilities[predicted_id])
@@ -117,8 +117,10 @@ def predict_image(model, img_array, class_names):
 
 
 def generate_gradcam_heatmap(grad_model, img_array, class_index):
+    model_input = resnet_preprocess(img_array.copy())
+
     with tf.GradientTape() as tape:
-        conv_outputs, predictions = grad_model(img_array, training=False)
+        conv_outputs, predictions = grad_model(model_input, training=False)
         class_score = predictions[:, class_index]
 
     gradients = tape.gradient(class_score, conv_outputs)
@@ -144,7 +146,6 @@ def generate_gradcam_heatmap(grad_model, img_array, class_index):
         heatmap = heatmap.numpy()
 
     return heatmap
-
 
 def overlay_gradcam(resized_img, heatmap, alpha=0.45):
     heatmap_resized = cv2.resize(

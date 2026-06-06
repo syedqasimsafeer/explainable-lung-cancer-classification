@@ -16,6 +16,6 @@
         "2": "malignant"
     },
     "best_model_name": "ResNet50",
-    "preprocessing": "resnet50_preprocess_input",
+    "preprocessing": "external_resnet50_preprocess_input",
     "model_file": "best_lung_cancer_model.keras"
 }
